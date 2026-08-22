@@ -5,8 +5,8 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="ReleaseDll|Win32">
+      <Configuration>ReleaseDll</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -17,23 +17,23 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
@@ -50,9 +50,14 @@
     <IntDir>.\..\..\..\Output\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\..\..\..\Output\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>.\..\..\..\Output\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'">
+    <OutDir>..\..\..\Bins\ServerBins\Win32\ReleaseDll\</OutDir>
+    <IntDir>..\..\..\..\Output\WorldServer\Win32\ReleaseDll\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'">
+    <OutDir>..\..\..\Bins\ServerBins\Win32\ReleaseDll\</OutDir>
+    <IntDir>..\..\..\..\Output\WorldServer\Win32\ReleaseDll\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -86,7 +91,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>winmm.lib;ws2_32.lib;VERSION.LIB;d3dx9dt.lib;Dxerr9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\..\..\Bins\ServerBins\$(Platform)\$(Configuration)\7. $(ProjectName).exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
       <AdditionalLibraryDirectories>..\..\..\ThirdParty\BugTrap\libs;..\..\..\ThirdParty\Lua\Lib\$(Platform)\;..\..\..\ThirdParty\directX\$(Platform)\lib;..\..\..\Bins\LibraryBins\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcp.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -100,13 +105,13 @@
       <MapExports>true</MapExports>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'">
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\..\..\Output\WorldServer\Release/WorldServer.tlb</TypeLibraryName>
+      <TypeLibraryName>.\..\..\Output\WorldServer\ReleaseDll/WorldServer.tlb</TypeLibraryName>
       <HeaderFileName />
     </Midl>
     <ClCompile>
@@ -114,7 +119,7 @@
       <Optimization>Disabled</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>..\_aiinterface;..\_Network\Misc\Include;..\_DirectX;..\_Common;..\_network;..\_Interface;..\_AIInterface;..\_CommonDefine\Util;..\..\..\ThirdParty\directX\$(Platform)\include;..\..\..\Data\Resource;..\..\..\ThirdParty\;..\..\..\ThirdParty\Lua\Include;..\..\LibrarySource\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\_MFCStub\;..\_aiinterface;..\_Network\Misc\Include;..\_DirectX;..\_Common;..\_network;..\_Interface;..\_AIInterface;..\_CommonDefine\Util;..\..\..\ThirdParty\directX\$(Platform)\include;..\..\..\Data\Resource;..\..\..\ThirdParty\;..\..\..\ThirdParty\Lua\Include;..\..\LibrarySource\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_32BIT_TIME_T;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -135,7 +140,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>winmm.lib;ws2_32.lib;VERSION.LIB;d3dx9.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\..\..\Bins\ServerBins\$(Platform)\$(Configuration)\7. $(ProjectName).exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetFileName)</OutputFile>
       <AdditionalLibraryDirectories>..\..\..\ThirdParty\BugTrap\libs;..\..\..\ThirdParty\Lua\Lib\$(Platform)\;..\..\..\ThirdParty\directX\$(Platform)\lib;..\..\..\Bins\LibraryBins\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcp.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -403,7 +408,9 @@
     <ClCompile Include="MiniGamePairgame.cpp" />
     <ClCompile Include="MiniGameStopwatch.cpp" />
     <ClCompile Include="MiniGameTyping.cpp" />
-    <ClCompile Include="MySplashWnd.cpp" />
+    <ClCompile Include="MySplashWnd.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="NetSerialNumberRequest.cpp" />
     <ClCompile Include="npchecker.cpp" />
     <ClCompile Include="rangda.cpp" />
@@ -413,6 +420,7 @@
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ThreadMng.cpp" />
     <ClCompile Include="User.cpp" />

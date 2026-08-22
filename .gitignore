@@ -306,3 +306,11 @@ __pycache__/
 *.lock
 *.vc.db
 *.ipch
+
+# Flyff build logs (local only, not tracked)
+_all_build_log.txt
+_build2_log.txt
+_build_log.txt
+_lib_build.txt
+_build*.txt
+_all_build*.txt

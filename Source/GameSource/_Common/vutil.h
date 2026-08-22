@@ -10,6 +10,8 @@
 #if !defined(__ACCOUNTSERVER) && !defined(__CACHESERVER) && !defined(__CERTIFIER) && !defined (__CORESERVER) && !defined(__DBSERVER) && !defined(__LOGINSERVER)
 #include <D3D9.h>
 #include <D3DX9Math.h>
+#else
+#include <d3d9types.h>
 #endif
 
 #include "../_CommonDefine\FlyffCommonDefine.h"
@@ -31,7 +33,7 @@ BOOL IsMultiByte( const char* pSrc );
 BOOL IsHangul( WORD word );
 BOOL IsNative( LPCTSTR lpszStr );
 
-// ¸ðµç¾ð¾îÀÇ ¹®ÀÚ°ü·Ã
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½
 int GetStrCut( const CHAR* pSrc, CHAR* pDest, int nCount );
 int GetStrLen( const CHAR* pSrc );
 
@@ -116,9 +118,9 @@ void GetRayEnd( D3DXVECTOR3* pvPickRayOrig,D3DXVECTOR3* pvPickRayDir,D3DXVECTOR3
 
 //-----------------------------------------------------------------------------
 // Name: IntersectTriangle()
-// Desc: orig¿¡¼­ ½ð d ±¤¼±ÀÌ v0,v1,v2 »ï°¢Çü ¾È¿¡ ¼ÓÇÏ´ÂÁö¸¦ È®ÀÎÇÏ°í,
-//       ¼ÓÇÏ°í ÀÖ´Ù¸é »ï°¢Çü°úÀÇ ±³Â÷Á¡À» pIntersect¿¡ µ¹·ÁÁØ´Ù.
-//       ¶ÇÇÑ »ï°¢Çü°úÀÇ °Å¸®¸¦ fDist¿¡ µ¹·ÁÁØ´Ù.
+// Desc: origï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ d ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ v0,v1,v2 ï¿½ï°¢ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½,
+//       ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï°¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pIntersectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+//       ï¿½ï¿½ï¿½ï¿½ ï¿½ï°¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ fDistï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 //-----------------------------------------------------------------------------
 
 #if !defined(__ACCOUNTSERVER) && !defined(__CACHESERVER) && !defined (__CERTIFIER) && !defined(__CORESERVER) && !defined(__DBSERVER) && !defined(__LOGINSERVER)

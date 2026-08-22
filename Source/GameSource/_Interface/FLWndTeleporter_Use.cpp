@@ -12,7 +12,7 @@
 
 
 //-------------------------------------------------------------------------------------------------
-//				ÅÚ·¹Æ÷Æ® À¯Àú µî·ÏÇü ¾ÆÀÌÅÛ 
+//				ï¿½Ú·ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 //-------------------------------------------------------------------------------------------------
 CFLWndTeleporter_Use::CFLWndTeleporter_Use(CTexture* pTexMap, DWORD dwItemObjID,std::vector< T_TELEPORTMAP_POINT > vecUserPoint):
 m_nTelID(-1),
@@ -69,10 +69,10 @@ void CFLWndTeleporter_Use::InitializeAddPointInformation( )
 	{
 		tTelPoint = (*itr_UserPoint);
 		TeleportationIconInfo* pTeleportationIconInfo = new TeleportationIconInfo;
-		pTeleportationIconInfo->SetIndex( tTelPoint.dwIndex );	// ÀÎµ¦½º
-		pTeleportationIconInfo->SetIconPoint( CPoint( static_cast< LONG >( tTelPoint.tPosition.tPos.x ), static_cast< LONG >( tTelPoint.tPosition.tPos.z ) ) );//À§Ä¡
-		pTeleportationIconInfo->SetMapName( tTelPoint.szName );//¼³¸í 
-		pTeleportationIconInfo->SetWorldID( tTelPoint.tPosition.dwWorldID );//¿ùµå ID
+		pTeleportationIconInfo->SetIndex( tTelPoint.dwIndex );	// ï¿½Îµï¿½ï¿½ï¿½
+		pTeleportationIconInfo->SetIconPoint( CPoint( static_cast< LONG >( tTelPoint.tPosition.tPos.x ), static_cast< LONG >( tTelPoint.tPosition.tPos.z ) ) );//ï¿½ï¿½Ä¡
+		pTeleportationIconInfo->SetMapName( tTelPoint.szName );//ï¿½ï¿½ï¿½ï¿½ 
+		pTeleportationIconInfo->SetWorldID( tTelPoint.tPosition.dwWorldID );//ï¿½ï¿½ï¿½ï¿½ ID
 		m_vecTeleportationPositionRect_User.push_back( pTeleportationIconInfo );
 	}	
 }
@@ -90,7 +90,7 @@ void CFLWndTeleporter_Use::OnRButtonDown  ( UINT nFlags, CPoint point )
 {
 	if(m_rectIconPT.PtInRect(point))
 	{
-		memset(m_rectIconPT,0,sizeof(m_rectIconPT));
+		memset(&m_rectIconPT,0,sizeof(m_rectIconPT));
 		m_nChangeId = m_nTelID;
 		m_menuUsePosition.DeleteAllMenu();
 		m_menuUsePosition.AppendMenu( 0,MMI_TELEPORTPOINTMENU01,prj.GetText(_T(TID_MMI_TELEPORTPOINTMENU01)));
@@ -111,7 +111,7 @@ void CFLWndTeleporter_Use::OnLButtonDown  ( UINT nFlags, CPoint point )
 	if(m_rectIconPT.PtInRect(point))
 	{
 
-		memset(m_rectIconPT,0,sizeof(m_rectIconPT));
+		memset(&m_rectIconPT,0,sizeof(m_rectIconPT));
 		if(g_WndMng.m_pWndTeleporterMng->GetPointState() == 2)
 		{
 			SendPacket();
@@ -139,7 +139,7 @@ void CFLWndTeleporter_Use::OnMouseWndSurface( CPoint point )
 //-------------------------------------------------------------------------------------------------
 void CFLWndTeleporter_Use::SendPacket()
 {
-	//ÅÚ·¹Æ÷Æ® ÀÌµ¿ ¿äÃ» 
+	//ï¿½Ú·ï¿½ï¿½ï¿½Æ® ï¿½Ìµï¿½ ï¿½ï¿½Ã» 
 	m_kTeleporter.dwItemObjID		= m_dwItemObjID;
 	m_kTeleporter.byType			= TELEPORT_MAP_TYPE_USER;
 	m_kTeleporter.dwTeleportID		= m_nTelID;
@@ -161,7 +161,7 @@ BOOL CFLWndTeleporter_Use::OnCommand( UINT nID, DWORD dwMessage, CWndBase* pWndB
 {
 	if( pWndBase == &m_menuUsePosition )
 	{
-		memset(m_rectIconPT,0,sizeof(m_rectIconPT));
+		memset(&m_rectIconPT,0,sizeof(m_rectIconPT));
 		switch(nID)
 		{
 		case MMI_TELEPORTPOINTMENU01:
@@ -192,7 +192,7 @@ BOOL CFLWndTeleporter_Use::OnCommand( UINT nID, DWORD dwMessage, CWndBase* pWndB
 void CFLWndTeleporter_Use::Req_DelPoint()
 {
 
-	memset(m_rectIconPT,0,sizeof(m_rectIconPT));
+	memset(&m_rectIconPT,0,sizeof(m_rectIconPT));
 	m_kDelPoint.dwItemObjID = m_dwItemObjID;
 	m_kDelPoint.dwUserPointID = m_nTelID;
 	if( g_WndMng.m_pWndTeleporterMng != NULL )
@@ -205,7 +205,7 @@ void CFLWndTeleporter_Use::Req_DelPoint()
 void CFLWndTeleporter_Use::Req_DelAllPoint()
 {
 
-	memset(m_rectIconPT,0,sizeof(m_rectIconPT));
+	memset(&m_rectIconPT,0,sizeof(m_rectIconPT));
 	m_kDelAllPoint.dwItemObjID = m_dwItemObjID;
 	if( g_WndMng.m_pWndTeleporterMng != NULL )
 	{
@@ -290,7 +290,7 @@ void CFLWndTeleporter_Use::SetChangeUserPointName(T_TELEPORTMAP_POINT tUsePoint)
 //-------------------------------------------------------------------------------------------------
 void CFLWndTeleporter_Use::SendPacket_AddPoint()
 {
-	//À§Ä¡ µî·Ï ¿äÃ»
+	//ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
 	m_kAddMyPoint.dwItemObjID		= m_dwItemObjID;
 	if( g_WndMng.m_pWndTeleporterMng != NULL )
 	{
@@ -305,7 +305,7 @@ void CFLWndTeleporter_Use::RenderAddUserPoint( C2DRender* p2DRender,
 												CRect rectRevisedMapPosition,
 												float fRevisedMapSizeRatio )
 {
-	//ÅÚ·¹Æ÷Æ® ¾ÆÀÌÄÜ ±×·ÁÁÜ 
+	//ï¿½Ú·ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ 
 	if( m_pTexTeleport_User == NULL )
 	{
 		return;
@@ -341,7 +341,7 @@ void CFLWndTeleporter_Use::RenderAddUserPoint( C2DRender* p2DRender,
 			m_pTexTeleport_User, 
 			TELEPORTATION_POSITION_TEXTURE_SIZE_RATIO, 
 			fRevisedMapSizeRatio);
-		//ÅÚ·¹ Æ÷Æ® ¾ÆÀÌÄÜÀ» ±×¸±¶§ ¸¶¿ì½º Æ÷ÀÎÆ®¹ÝÀÀÀ¸·Î Å©°Ô ±×¸°´Ù.
+		//ï¿½Ú·ï¿½ ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½.
 		if( rectTeleportationPositionIcon.PtInRect( pointMouse ) == TRUE )
 		{
 			m_rectIconPT = rectTeleportationPositionIcon;
@@ -379,13 +379,13 @@ void CFLWndTeleporter_Use::RenderAddUserPoint( C2DRender* p2DRender,
 //-------------------------------------------------------------------------------------------------
 void CFLWndTeleporter_Use::SetAddUserPoint(T_TELEPORTMAP_POINT tUsePoint)
 {
-	//À§Ä¡ µî·Ï ¹ÞÀº °ª 
+	//ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
 	m_tUserPoint = tUsePoint;
 	TeleportationIconInfo* pTeleportationIconInfo = new TeleportationIconInfo;
-	pTeleportationIconInfo->SetIndex( m_tUserPoint.dwIndex );	// ÀÎµ¦½º	
-	pTeleportationIconInfo->SetIconPoint( CPoint( static_cast< LONG >( m_tUserPoint.tPosition.tPos.x ), static_cast< LONG >( m_tUserPoint.tPosition.tPos.z ) ) );//À§Ä¡
-	pTeleportationIconInfo->SetMapName( m_tUserPoint.szName );//¼³¸í 
-	pTeleportationIconInfo->SetWorldID( m_tUserPoint.tPosition.dwWorldID );//¿ùµå ID
+	pTeleportationIconInfo->SetIndex( m_tUserPoint.dwIndex );	// ï¿½Îµï¿½ï¿½ï¿½	
+	pTeleportationIconInfo->SetIconPoint( CPoint( static_cast< LONG >( m_tUserPoint.tPosition.tPos.x ), static_cast< LONG >( m_tUserPoint.tPosition.tPos.z ) ) );//ï¿½ï¿½Ä¡
+	pTeleportationIconInfo->SetMapName( m_tUserPoint.szName );//ï¿½ï¿½ï¿½ï¿½ 
+	pTeleportationIconInfo->SetWorldID( m_tUserPoint.tPosition.dwWorldID );//ï¿½ï¿½ï¿½ï¿½ ID
 	m_vecTeleportationPositionRect_User.push_back( pTeleportationIconInfo );
 }
 
