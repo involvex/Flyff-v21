@@ -1,4 +1,5 @@
 #ifndef _QUERY_H_
+#define __DbStuff
 #define _QUERY_H_
 
 #include <sql.h>
@@ -24,17 +25,17 @@ public:
 	SqlDatabase m_dbType;
 #endif 
 
-	// ÃÖ´ë ÄÃ·³¼ö, BLOB ÀÔÃâ·Â ´ÜÀ§, NULL ÇÊµå°ª
+	// ï¿½Ö´ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½, BLOB ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, NULL ï¿½Êµå°ª
 	enum { MAXCOL=256, MAX_COLNAME = 128, BLOBBATCH=10000, CQUERYNULL=-100, CQUERYEOF=-101, 
 		CQUERYNOCOL=-102, CQUERYERROR=-103
 		, MAXTBL = MAX_PATH
-		, MAX_FULL_COL = MAXTBL+1+MAXCOL};			//1Àº '.'
+		, MAX_FULL_COL = MAXTBL+1+MAXCOL};			//1ï¿½ï¿½ '.'
 private:
-	SQLHENV hEnv;							// È¯°æ ÇÚµé
-	SQLHDBC hDbc;							// ¿¬°á ÇÚµé
-	char*	Col[MAXCOL];					// ¹ÙÀÎµùµÉ ÄÃ·³ Á¤º¸
+	SQLHENV hEnv;							// È¯ï¿½ï¿½ ï¿½Úµï¿½
+	SQLHDBC hDbc;							// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
+	char*	Col[MAXCOL];					// ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	int FindCol(char *name);				// ÄÃ·³ÀÇ ÀÌ¸§À¸·ÎºÎÅÍ ¹øÈ£¸¦ Ã£¾ÆÁØ´Ù.
+	int FindCol(char *name);				// ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½Ø´ï¿½.
 
 
 	char					szTable[ MAXTBL ];
@@ -46,42 +47,42 @@ private:
 //	void					SetTable( const char * szTableName );
 
 public:
-	SQLHSTMT hStmt;							// ¸í·É ÇÚµé. Á÷Á¢ »ç¿ëÇÒ ¼öµµ ÀÖÀ¸¹Ç·Î publicÀ¸·Î Á¤ÀÇ
-	SQLSMALLINT nCol;						// ÄÃ·³ °³¼ö
-	SQLCHAR ColName[MAXCOL][MAX_COLNAME];			// ÄÃ·³ÀÇ ÀÌ¸§µé
-	SQLINTEGER lCol[MAXCOL];				// ÄÃ·³ÀÇ ±æÀÌ/»óÅÂ Á¤º¸
+	SQLHSTMT hStmt;							// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ publicï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	SQLSMALLINT nCol;						// ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½
+	SQLCHAR ColName[MAXCOL][MAX_COLNAME];			// ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+	SQLINTEGER lCol[MAXCOL];				// ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	CQuery();								// »ý¼ºÀÚ
-	~CQuery();								// ÆÄ±«ÀÚ:¿¬°á ÇÚµéÀ» ÇØÁ¦ÇÑ´Ù.
+	CQuery();								// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	~CQuery();								// ï¿½Ä±ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-	void PrintDiag( LPCTSTR szSQL, SQLSMALLINT type = SQL_HANDLE_DBC );						// Áø´Ü Á¤º¸ Ãâ·Â
+	void PrintDiag( LPCTSTR szSQL, SQLSMALLINT type = SQL_HANDLE_DBC );						// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
 #ifdef __DbStuff
 	bool Connect(SqlDatabase dbType);
 #else
-	BOOL Connect(int Type, char *ConStr, char *UID=NULL, const char *PWD=NULL);	// µ¥ÀÌÅÍ ¼Ò½º¿¡ ¿¬°áÇÑ´Ù.
+	BOOL Connect(int Type, char *ConStr, char *UID=NULL, const char *PWD=NULL);	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 #endif
-	void DisConnect();						// µ¥ÀÌÅÍ ¼Ò½º ¿¬°áÀ» ²÷´Â´Ù
-	BOOL Exec(LPCTSTR szSQL);				// SQL¹®À» ½ÇÇàÇÑ´Ù.
+	void DisConnect();						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½
+	BOOL Exec(LPCTSTR szSQL);				// SQLï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	BOOL PrepareFetch();
 
 	BOOL	PrepareQuery( const TCHAR * szQuery );
 
 	BOOL	Execute( LPCTSTR lpszFormat, ... );
 
-	int ExecGetInt(LPCTSTR szSQL);			// SQL¹®À» ½ÇÇàÇÏ°í Ã¹¹øÂ° ÄÃ·³ÀÇ Á¤¼ö ÀÐÀ½
-	void ExecGetStr(LPCTSTR szSQL, char *buf);		// SQL¹®À» ½ÇÇàÇÏ°í Ã¹¹øÂ° ÄÃ·³ÀÇ ¹®ÀÚ¿­ ÀÐÀ½
-	BOOL Fetch();						// ÇÑ Çà °¡Á®¿À±â
-	void Clear();							// Ä¿¼­ ÇØÁ¦ ¹× ¾ð ¹ÙÀÎµù
-	void ClearParam();						// ÆÄ¶ó¸®ÅÍ ÃÊ±âÈ­
+	int ExecGetInt(LPCTSTR szSQL);			// SQLï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ Ã¹ï¿½ï¿½Â° ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void ExecGetStr(LPCTSTR szSQL, char *buf);		// SQLï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ Ã¹ï¿½ï¿½Â° ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½
+	BOOL Fetch();						// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void Clear();							// Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
+	void ClearParam();						// ï¿½Ä¶ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 
 
 
 	bool					IsValidColumn( char *szName );
 
 
-	int						GetInt(int nCol);					// Á¤¼öÇü ÄÃ·³ ÀÐ±â
-	int						GetInt(char *sCol);					// Á¤¼öÇü ÄÃ·³ ÀÐ±â
+	int						GetInt(int nCol);					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	int						GetInt(char *sCol);					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
 
 	__int64					GetInt64( int nCol );
 	__int64					GetInt64( char* sCol );
@@ -91,24 +92,24 @@ public:
 	SERIALNUMBER			GetSerialNumber( int nCol );
 	SERIALNUMBER			GetSerialNumber( char* sCol );
 
-	float					GetFloat(int nCol);					// ½Ç¼öÇü ÄÃ·³ ÀÐ±â
-	float					GetFloat(char *sCol);				// ½Ç¼öÇü ÄÃ·³ ÀÐ±â
-	char					GetChar(int nCol);					// ½Ç¼öÇü ÄÃ·³ ÀÐ±â
-	char					GetChar(char *sCol);				// ½Ç¼öÇü ÄÃ·³ ÀÐ±â
-	void					GetStr(int nCol, char *buf, size_t cchBuf);		// ¹®ÀÚ¿­Çü ÄÃ·³ ÀÐ±â
-	void					GetStr(char *sCol, char *buf, size_t cchBuf);		// ¹®ÀÚ¿­Çü ÄÃ·³ ÀÐ±â
+	float					GetFloat(int nCol);					// ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	float					GetFloat(char *sCol);				// ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	char					GetChar(int nCol);					// ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	char					GetChar(char *sCol);				// ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	void					GetStr(int nCol, char *buf, size_t cchBuf);		// ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	void					GetStr(char *sCol, char *buf, size_t cchBuf);		// ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
 
 	//---------------------------------------------------------------------------------------------
 	void					makeFullColName( char * szFullColName, const size_t uCCh, const char * szCol );
 		
 
-	int						GetIntFromTbl(char *sCol);					// Á¤¼öÇü ÄÃ·³ ÀÐ±â
+	int						GetIntFromTbl(char *sCol);					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
 	__int64					GetInt64FromTbl( char* sCol );
 	EXPINTEGER				GetExpIntegerFromTbl( char* sCol );
 	SERIALNUMBER			GetSerialNumberFromTbl( char* sCol );
-	float					GetFloatFromTbl(char *sCol);				// ½Ç¼öÇü ÄÃ·³ ÀÐ±â
-	char					GetCharFromTbl(char *sCol);				// ½Ç¼öÇü ÄÃ·³ ÀÐ±â
-	void					GetStrFromTbl(char *sCol, char *buf, size_t cchBuf);	// ¹®ÀÚ¿­Çü ÄÃ·³ ÀÐ±â
+	float					GetFloatFromTbl(char *sCol);				// ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	char					GetCharFromTbl(char *sCol);				// ï¿½Ç¼ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
+	void					GetStrFromTbl(char *sCol, char *buf, size_t cchBuf);	// ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½Ð±ï¿½
 
 
 	int ReadBlob(LPCTSTR szSQL, void *buf);
@@ -178,8 +179,9 @@ public:
 	typedef					std::vector< FLColumnInfo >		ColumnInfoVec;
 	BOOL					GetColumns( SQLCHAR * szTable, ColumnInfoVec & o_vecColumnInfo );
 };
-// TODO: ¸ðµâ ºÐ¸® 
-// ¾ÏÈ£È­µÈ ÅäÅ«À» ÇØµ¶ÇØ¼­ ÆÐ½º¿öµå·Î ¾ò´Â´Ù.
-// ¿¹: ÅäÅ« - 3A08DB22
+// TODO: ï¿½ï¿½ï¿½ ï¿½Ð¸ï¿½ 
+// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½Å«ï¿½ï¿½ ï¿½Øµï¿½ï¿½Ø¼ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
+// ï¿½ï¿½: ï¿½ï¿½Å« - 3A08DB22
 extern BOOL GetPWDFromToken( const char* szToken, char* szPWD );
 #endif
+

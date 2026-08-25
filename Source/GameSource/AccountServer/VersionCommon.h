@@ -1,7 +1,7 @@
 #ifndef __VERSION_COMMON_H__
 #define __VERSION_COMMON_H__
 #if !defined( _DEBUG )
-	#define	__MAINSERVER
+//	#define	__MAINSERVER // disabled for local test - BILLING_IP not required
 #endif
 #define	__VER	19
 
@@ -9,18 +9,18 @@
 	#define __INTERNALSERVER
 #endif
 
-// °øÅë ¼³Á¤
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-#define		__SERVER			// Å¬¶óÀÌ¾ðÆ® Àü¿ëÄÚµå¸¦ ºôµåÇÏÁö ¾Ê±â À§ÇÑ define
-
-
-
-#if	  defined(__INTERNALSERVER)	// ³»ºÎ »ç¹«½Ç Å×½ºÆ®¼­¹ö
+#define		__SERVER			// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½Úµå¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ define
 
 
-#elif defined(__MAINSERVER)		// ¿ÜºÎ º»¼·
+
+#if	  defined(__INTERNALSERVER)	// ï¿½ï¿½ï¿½ï¿½ ï¿½ç¹«ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½
 
 
-#endif	// end - ¼­¹öÁ¾·ùº° define 
+#elif defined(__MAINSERVER)		// ï¿½Üºï¿½ ï¿½ï¿½ï¿½ï¿½
+
+
+#endif	// end - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ define 
 
 #endif	// __VERSION_COMMON_H__

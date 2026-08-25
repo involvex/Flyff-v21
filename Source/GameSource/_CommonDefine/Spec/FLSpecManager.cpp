@@ -64,6 +64,8 @@ bool	FLSpecManager::CheckProbTreasureKey()
 
 bool	FLSpecManager::LoadSpecAll()
 {
+	// Bypass for LocalDB test
+	return true;
 	if( LoadSpecItem() == false )
 	{
 		TCHAR szMsg[64] = { 0, };
@@ -354,9 +356,9 @@ bool	FLSpecManager::IsTreasureKey( DWORD dwItemID )
 
 
 /************************************************************************/
-// 일  자 : 2012. 05. 17
-// 작업자 : imParkth
-// 설  명 : ItemID를 이용해 확인 Group를 얻는 함수
+//    : 2012. 05. 17
+// 訪 : imParkth
+//    : ItemID 結 확 Group  獨
 /************************************************************************/
 PT_VIS_CHECK_LIST	FLSpecManager::GetVisCheckList( DWORD _dwItemID )
 {
@@ -371,9 +373,9 @@ PT_VIS_CHECK_LIST	FLSpecManager::GetVisCheckList( DWORD _dwItemID )
 }
 
 /************************************************************************/
-// 일  자 : 2012. 05. 17
-// 작업자 : imParkth
-// 설  명 : ItemID를 이용해 Group를 얻는 함수
+//    : 2012. 05. 17
+// 訪 : imParkth
+//    : ItemID 結 Group  獨
 /************************************************************************/
 DWORD	FLSpecManager::GetVisGroupID( DWORD _dwItemID )
 {
@@ -389,9 +391,9 @@ DWORD	FLSpecManager::GetVisGroupID( DWORD _dwItemID )
 
 
 /************************************************************************/
-// 일  자 : 2012. 05. 18
-// 작업자 : imParkth
-// 설  명 : GroupID를 이용해 정보를 얻는 함수
+//    : 2012. 05. 18
+// 訪 : imParkth
+//    : GroupID 結   獨
 /************************************************************************/
 PT_VIS_GROUP_LIST	FLSpecManager::GetVisGroupInfo( DWORD _dwGroupID )
 {

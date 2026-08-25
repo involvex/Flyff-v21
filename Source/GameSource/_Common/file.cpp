@@ -130,8 +130,8 @@ void CResFile::AddResource( TCHAR* lpszResName )
 	file.Read( &nFileHeaderSize, sizeof( int ) );
 	
 	char *pHeader = new char[ nFileHeaderSize ];
-	// ÇØ´õ´Â ¾ÏÈ£ ±âº» 
-	//if( m_bEncryption ) // ¾ÏÈ£È­ µÇ¾ú´Ù¸é
+	// ï¿½Ø´ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½âº» 
+	//if( m_bEncryption ) // ï¿½ï¿½È£È­ ï¿½Ç¾ï¿½ï¿½Ù¸ï¿½
 	{
 		char *pCryptHeader = new char[ nFileHeaderSize ];
 		file.Read( pCryptHeader, nFileHeaderSize );
@@ -143,7 +143,7 @@ void CResFile::AddResource( TCHAR* lpszResName )
 		
 		SAFE_DELETE_ARRAY( pCryptHeader );
 	}
-	//else // ¾ÏÈ£È­ ¾ÈµÇ¾ú´Ù¸é
+	//else // ï¿½ï¿½È£È­ ï¿½ÈµÇ¾ï¿½ï¿½Ù¸ï¿½
 	//{
 	//	m_File.Read( pHeader, nFileHeaderSize );
 	//}
@@ -177,7 +177,7 @@ void CResFile::AddResource( TCHAR* lpszResName )
 		m_mapResource.SetAt( szFullFileName, lpRes );
 
 		/*
-		// Ã£¾Ò´Ù¸é
+		// Ã£ï¿½Ò´Ù¸ï¿½
 		if( 0 == strcmpi( lpszFileName, szFileName ) )
 		{
 			bFind = TRUE;
@@ -314,6 +314,14 @@ BOOL CResFile::Open( LPCTSTR lpszFileName, TCHAR *mode )
 			if( CFileIO::Open( lpszFileName, mode ) == TRUE )
 				return TRUE;
 		}
+		// LocalDB test fallback: try direct FileIO even if not in resource (for .ini files)
+		FLERROR_LOG(PROGRAM_NAME, _T("CResFile fallback trying CFileIO for [%s] cwd=[%s]"), lpszFileName, szSerchPath);
+		if( CFileIO::Open( lpszFileName, mode ) == TRUE )
+		{
+			FLERROR_LOG(PROGRAM_NAME, _T("CResFile fallback CFileIO SUCCESS for [%s]"), lpszFileName);
+			return TRUE;
+		}
+		FLERROR_LOG(PROGRAM_NAME, _T("CResFile fallback CFileIO FAIL for [%s]"), lpszFileName);
 	}
 	return FALSE;
 }
@@ -354,11 +362,11 @@ BOOL CResFile::FindFile(char *szSerchPath, LPCTSTR lpszFileName, TCHAR *mode, in
 			} 
 			else 
 			{
-				// .Res ÆÄÀÏÀ» Ã£¾Ò´Ù¸é
+				// .Res ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Ò´Ù¸ï¿½
 				if( 0 == strcmpi( ext, ".res" ) )
 				{
 					wsprintf( filepath, "%s%s%s", drive, dir, wfd.cFileName);
-					// .Res ÆÄÀÏ ¾È¿¡¼­ ¿øÇÏ´Â ÆÄÀÏÀ» Ã£¾Ò´Ù¸é
+					// .Res ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Ò´Ù¸ï¿½
 					if( TRUE == FindFileFromResource( filepath, szFileName ) )
 					{
 						return TRUE;
@@ -369,7 +377,7 @@ BOOL CResFile::FindFile(char *szSerchPath, LPCTSTR lpszFileName, TCHAR *mode, in
 		}
 		FindClose( hSrch );
 	}
-	// Ã£´Â ÆÄÀÏÀÌ ¿ÜºÎ¿¡ ÀÖ´Ù¸é
+	// Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÜºÎ¿ï¿½ ï¿½Ö´Ù¸ï¿½
 	//if( 0 == strcmpi( szFileName, wfd.cFileName ) )
 	//{
 	m_bResouceInFile = FALSE;
@@ -392,8 +400,8 @@ BOOL CResFile::FindFileFromResource( char *filepath, LPCTSTR lpszFileName )
 	m_File.Read( &nFileHeaderSize, sizeof( int ) );
 
 	char *pHeader = new char[ nFileHeaderSize ];
-	// ÇØ´õ´Â ¾ÏÈ£ ±âº» 
-	//if( m_bEncryption ) // ¾ÏÈ£È­ µÇ¾ú´Ù¸é
+	// ï¿½Ø´ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½âº» 
+	//if( m_bEncryption ) // ï¿½ï¿½È£È­ ï¿½Ç¾ï¿½ï¿½Ù¸ï¿½
 	{
 		char *pCryptHeader = new char[ nFileHeaderSize ];
 		m_File.Read( pCryptHeader, nFileHeaderSize );
@@ -405,7 +413,7 @@ BOOL CResFile::FindFileFromResource( char *filepath, LPCTSTR lpszFileName )
  
 		delete [] pCryptHeader;
 	}
-	//else // ¾ÏÈ£È­ ¾ÈµÇ¾ú´Ù¸é
+	//else // ï¿½ï¿½È£È­ ï¿½ÈµÇ¾ï¿½ï¿½Ù¸ï¿½
 	//{
 	//	m_File.Read( pHeader, nFileHeaderSize );
 	//}
@@ -430,7 +438,7 @@ BOOL CResFile::FindFileFromResource( char *filepath, LPCTSTR lpszFileName )
 		//FLTRACE_LOG( PROGRAM_NAME, _T( "5 %s %s" ), lpszFileName, szFileName );
 		memcpy( &nFilePosition, &pHeader[ nHeaderPosition ], sizeof( int ) ); nHeaderPosition += sizeof( int );
 		//FLTRACE_LOG( PROGRAM_NAME, _T( "6 %s %s" ), lpszFileName, szFileName );
-		// Ã£¾Ò´Ù¸é
+		// Ã£ï¿½Ò´Ù¸ï¿½
 		if( 0 == strcmpi( lpszFileName, szFileName ) )
 		{
 			m_bResouceInFile = TRUE;
@@ -469,7 +477,7 @@ LPVOID CResFile::Read( void )
 		//m_nFileCurrentPosition 
 		m_File.Read( ptr, size );
 		m_nFileCurrentPosition += size;
-		// ¾ÏÈ£È­ÀÏ °æ¿ì ¾ÏÈ£¸¦ Ç¬´Ù.
+		// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ Ç¬ï¿½ï¿½.
 		if( IsEncryption() )
 		{
 			for( int i = 0; i < size;  i++ )
@@ -488,7 +496,7 @@ size_t CResFile::Read( void *ptr, size_t size, size_t n /* = 1  */ )
 		//m_File.Seek( m_nFileCurrentPosition, CFile::begin );
 		size_t size_  = m_File.Read( ptr, size * n );
 		m_nFileCurrentPosition += size_;
-		// ¾ÏÈ£È­ÀÏ °æ¿ì ¾ÏÈ£¸¦ Ç¬´Ù.
+		// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ Ç¬ï¿½ï¿½.
 		if( IsEncryption() )
 		{
 			for( int i = 0; i < (int)( size_ );  i++ )
@@ -555,7 +563,7 @@ char CResFile::GetC( void )
 		char c;
 		m_File.Read( &c, 1 );
 		m_nFileCurrentPosition += sizeof( c );
-		// ¾ÏÈ£È­ÀÏ °æ¿ì ¾ÏÈ£¸¦ Ç¬´Ù.
+		// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ Ç¬ï¿½ï¿½.
 		if( IsEncryption() )
 			c = Decryption( m_byEncryptionKey, c );
 		return c;
@@ -688,12 +696,12 @@ BOOL CFileFinder::FindFirst( LPCTSTR lpFilespec, struct _finddata_t *fileinfo )
 	TCHAR drive[_MAX_DRIVE], dir[_MAX_DIR], name[ _MAX_FNAME ], ext[_MAX_EXT];
 	FLSplitPath( lpFilespec, drive, _countof( drive ), dir, _countof( dir ), name, _countof( name ), ext, _countof( ext ) );
 
-	// µå¶óÀÌºê¸íÀÌ µé¾î ÀÖÀ¸¸é ¿ÏÀüÇÑ path´Ù. ±×·¯¹Ç·Î ±×³É Ä«ÇÇ 
+	// ï¿½ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pathï¿½ï¿½. ï¿½×·ï¿½ï¿½Ç·ï¿½ ï¿½×³ï¿½ Ä«ï¿½ï¿½ 
 	if( drive[ 0 ] )
 	{
 		FLStrcpy( m_szFilespec, _countof( m_szFilespec ), lpFilespec );
 	}
-	// µå¸®ÀÌºê¸íÀÌ ¾øÀ¸¸é ÇöÀç pathÀÇ ¿¬ÀåÀÌ´Ù. 
+	// ï¿½å¸®ï¿½Ìºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ pathï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½. 
 	else
 	{
 		::GetCurrentDirectory( MAX_PATH, szPath );

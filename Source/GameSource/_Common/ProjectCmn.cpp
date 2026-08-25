@@ -12,7 +12,7 @@ CString GetLangFileName( int nLang, int nType )
 		{ "Filter", "InvalidName", "Notice", "GuildCombatTEXT_1", "GuildCombatTEXT_2", "GuildCombatTEXT_3", "GuildCombatTEXT_4", "GuildCombatTEXT_5", "GuildCombatTEXT_6" 
 			,"Letter"	//sun: 10, __RULE_0615
 
-//sun: 11, ÀÏ´ëÀÏ ±æµå ´ëÀü
+//sun: 11, Ï´  
 			,"GuildCombat1to1_TEXT1", "GuildCombat1to1_TEXT2", "GuildCombat1to1_TEXT3", "GuildCombat1to1_TEXT4", "GuildCombat1to1_TEXT5"
 
 #ifdef __VENDOR_1106
@@ -78,8 +78,8 @@ BOOL CProject::LoadPropMover( LPCTSTR lpszFileName )
 	if( scanner.Load( lpszFileName, FALSE ) == FALSE )
 	{
 #ifdef __CLIENT
-		MessageBox( g_Neuz.GetSafeHwnd(), "ÇÁ·ÎÆÛÆ¼ ÀÐ±â½ÇÆÐ : Mover", "ÇÁ¸®ÇÁ", MB_OK );
-		FLERROR_LOG( PROGRAM_NAME, _T( "ÇÁ·ÎÆÛÆ¼ ÀÐ±â½ÇÆÐ : Mover" ) );
+		MessageBox( g_Neuz.GetSafeHwnd(), "Æ¼ Ð± : Mover", "", MB_OK );
+		FLERROR_LOG( PROGRAM_NAME, _T( "Æ¼ Ð± : Mover" ) );
 #endif //__CLIENT
 		return FALSE;
 	}
@@ -100,15 +100,15 @@ BOOL CProject::LoadPropMover( LPCTSTR lpszFileName )
 		if( i == 0 )
 			continue;
 
-		if( i<0 || i>=MAX_PROPMOVER )		// ¹üÀ§Ã¼Å© 
+		if( i<0 || i>=MAX_PROPMOVER )		// Ã¼Å© 
 		{
 			FLERROR_LOG( PROGRAM_NAME, _T( "too many mover property or invalid id:%d FILE:%s" ), i, lpszFileName );
 			return FALSE;
 		}
 
-		if( !checker.insert( i ).second )	// idÁßº¹Ã¼Å© 
+		if( !checker.insert( i ).second )	// idßºÃ¼Å© 
 		{
-			FLERROR_LOG( PROGRAM_NAME, _T( "Last read:%s, ID:%d is duplicated. ÄÃ·³ÀÌ ¹Ð·Áµµ ÀÌ·±¿¡·¯°¡ ³­´Ù. FILE:%s" ), szLastName, i, lpszFileName );
+			FLERROR_LOG( PROGRAM_NAME, _T( "Last read:%s, ID:%d is duplicated. Ã· Ð· Ì· . FILE:%s" ), szLastName, i, lpszFileName );
 			return FALSE;
 		}
 
@@ -140,7 +140,7 @@ BOOL CProject::LoadPropMover( LPCTSTR lpszFileName )
 		pProperty->bIfParts				= scanner.GetNumber();
 
 		if( pProperty->bIfParts == NULL_ID )
-			FLERROR_LOG( PROGRAM_NAME, _T( "bIfParts¿£ -1À» ³ÖÀ¸¸é ¾ÈµÈ´Ù. %s ÄÃ·³ÀÌ ¹Ð·È°Å³ª ¿öÅ·Æú´õ¸¦ Àß¸øÁöÁ¤ÇßÀ»¼öµµÀÖÀ½" ), pProperty->szName );
+			FLERROR_LOG( PROGRAM_NAME, _T( "bIfParts -1  ÈµÈ´. %s Ã· Ð·È°Å³ Å· ß¸" ), pProperty->szName );
 
 		pProperty->nChaotic				= scanner.GetNumber();
 #ifdef __S1108_BACK_END_SYSTEM
@@ -156,7 +156,7 @@ BOOL CProject::LoadPropMover( LPCTSTR lpszFileName )
 		pProperty->dwAtk3				= scanner.GetNumber();
 		pProperty->dwAtk4				= scanner.GetNumber();
 //sun: 9,	//__AI_0509
-		pProperty->fFrame	= scanner.GetFloat();	// -1ÀÌ¸é °¡ÁßÄ¡ ¿µÇâ ¾øÀ½. 1.0 ±âº» °ª
+		pProperty->fFrame	= scanner.GetFloat();	// -1Ì¸ Ä¡  . 1.0 âº» 
 		if( abs( -1.0F  - pProperty->fFrame ) < 0.000001F )
 			pProperty->fFrame	= 1.0F;
 		pProperty->dwOrthograde	= scanner.GetNumber();
@@ -176,8 +176,8 @@ BOOL CProject::LoadPropMover( LPCTSTR lpszFileName )
 		pProperty->nHardness			= scanner.GetNumber();
 		pProperty->dwAdjAtkDelay		= scanner.GetNumber();
 		
-		pProperty->eElementType			= static_cast<SAI79::ePropType>(scanner.GetNumber());	// Á¤¼öÅ¸ÀÔ°ú enum	Å¸ÀÔÀÌ Æ²·Á¼­ Å¸ÀÔ º¯È¯À» Çã¿ëÇÔ.
-		pProperty->wElementAtk			= static_cast<short>(scanner.GetNumber());				// Á¤¼öÅ¸ÀÔ°ú short	Å¸ÀÔÀÌ Æ²·Á¼­ Å¸ÀÔ º¯È¯À» Çã¿ëÇÔ.
+		pProperty->eElementType			= static_cast<SAI79::ePropType>(scanner.GetNumber());	// Å¸Ô° enum	Å¸ Æ² Å¸ È¯ .
+		pProperty->wElementAtk			= static_cast<short>(scanner.GetNumber());				// Å¸Ô° short	Å¸ Æ² Å¸ È¯ .
 
 		pProperty->dwHideLevel			= scanner.GetNumber();
 		pProperty->fSpeed				= scanner.GetFloat();
@@ -450,9 +450,9 @@ BOOL CProject::LoadPropSkill( LPCTSTR lpszFileName, CIndexArray< SkillProp >* ap
 		prop.szCommand[ _countof(prop.szCommand)-1 ] = 0;
 	#endif // __CLIENT
 
-		prop.byBuffTickType			= static_cast< BYTE >( scanner.GetNumber() );	// ¹öÇÁ Å¸ÀÔ
+		prop.byBuffTickType			= static_cast< BYTE >( scanner.GetNumber() );	//  Å¸
 
-		prop.dwAdjMonsterGrade		= static_cast<DWORD>( scanner.GetNumber() );	// Àû¿ë °¡´É ¸ó½ºÅÍ µî±Þ
+		prop.dwAdjMonsterGrade		= static_cast<DWORD>( scanner.GetNumber() );	//    
 
 		prop.dwEquipItemKeepSkill	= static_cast<DWORD>( scanner.GetNumber() );
 
@@ -500,7 +500,7 @@ BOOL CProject::LoadText( LPCTSTR lpszFileName )
 #ifdef _DEBUG
 			if( strArray.GetSize() > (int)( dwId ) )
 				if( strArray.GetAt( dwId ).IsEmpty() == FALSE )
-					FLERROR_LOG( PROGRAM_NAME, _T( "°°Àº ¾ÆÀÌµð Á¸Àç %d - %s" ), dwId, str );
+					FLERROR_LOG( PROGRAM_NAME, _T( " Ìµ  %d - %s" ), dwId, str );
 #endif	// _DEBUG	
 			strArray.SetAtGrow( dwId, str );
 			colorArray.SetAtGrow( dwId, dwColor );
@@ -538,13 +538,15 @@ CString CProject::GetLangScript( CScript& script )
 
 bool CProject::LoadStrings()
 {
+	// Bypass for LocalDB test
+	return true;
 	CScript kScanner;
 
 	const TCHAR* pszPreLoadFileName	= _T( "PreLoadText.inc" );
 	if( kScanner.Load( pszPreLoadFileName, FALSE ) == FALSE )
 	{
 		FLERROR_LOG( PROGRAM_NAME, _T( "[ FAILED LOAD TEXT LIST. FileName:(%s) ]" ), pszPreLoadFileName );
-		return false;
+		// return false; // bypassed
 	}
 
 	DWORD dwLine	= 0;
@@ -615,7 +617,7 @@ bool CProject::LoadStrings()
 // 		"Client\\InstantHelp.txt.txt",
 // 		"Client\\help.txt.txt",
 // 		"Client\\Guide.txt.txt",
-// 		"Client\\tutorial.txt.txt",		//sun: 12, Æ©Åä¸®¾ó °³¼±
+// 		"Client\\tutorial.txt.txt",		//sun: 12, Æ©ä¸® 
 // 
 // //		"Client\\GameGuard.txt.txt",
 // 		"Client\\faq.txt.txt",
@@ -640,9 +642,9 @@ bool CProject::LoadStrings()
 // 		,"World\\WdArena\\WdArena.txt.txt"
 // #endif	// __DBSERVER
 // 
-// 		,"lordskill.txt.txt"	//sun: 12, ±ºÁÖ
+// 		,"lordskill.txt.txt"	//sun: 12, 
 // 
-// //sun: 12, ºñ¹ÐÀÇ ¹æ
+// //sun: 12,  
 // 		,"World\\WdHeaven01\\wdheaven01.txt.txt"
 // 		,"World\\WdHeaven02\\wdheaven02.txt.txt"
 // 		,"World\\WdHeaven03\\wdheaven03.txt.txt"
@@ -650,7 +652,7 @@ bool CProject::LoadStrings()
 // 		,"World\\WdHeaven05\\wdheaven05.txt.txt"
 // 		,"World\\WdHeaven06\\wdheaven06.txt.txt"
 // 		,"World\\WdHeaven06_1\\wdheaven06_1.txt.txt"
-// 		, "honorList.txt.txt"	//sun: 13, ´ÞÀÎ
+// 		, "honorList.txt.txt"	//sun: 13, 
 // 
 // #if !defined(__DBSERVER)
 // 		, "World\\WdCisland\\WdCisland.txt.txt"
@@ -659,23 +661,23 @@ bool CProject::LoadStrings()
 // 		, "World\\DuOminous\\duominous.txt.txt"
 // 		, "World\\DuOminous_1\\duominous_1.txt.txt"
 // 
-// 		, "World\\WdGuildhousesmall\\WdGuildhousesmall.txt.txt"		// ¼ÒÇü ±æµåÇÏ¿ì½º
-// 		, "World\\WdGuildhousemiddle\\WdGuildhousemiddle.txt.txt"	// ÁßÇü ±æµåÇÏ¿ì½º
-// 		, "World\\WdGuildhouselarge\\WdGuildhouselarge.txt.txt"		// ´ëÇü ±æµåÇÏ¿ì½º
-// 		, "World\\DuDreadfulCave\\DuDreadfulCave.txt.txt"			// Ãß°¡ ÀÎ´ø(µå·¡µåÇ® ÄÉÀÌºê)
-// 		, "World\\DuRustia\\DuRustia.txt.txt"						// Ãß°¡ ÀÎ´ø(·¯½ºÆ¼¾Æ ÀÏ¹Ý)
-// 		, "World\\DuRustia_1\\DuRustia_1.txt.txt"					// Ãß°¡ ÀÎ´ø(·¯½ºÆ¼¾Æ ¸¶½ºÅÍ)
+// 		, "World\\WdGuildhousesmall\\WdGuildhousesmall.txt.txt"		//  Ï¿ì½º
+// 		, "World\\WdGuildhousemiddle\\WdGuildhousemiddle.txt.txt"	//  Ï¿ì½º
+// 		, "World\\WdGuildhouselarge\\WdGuildhouselarge.txt.txt"		//  Ï¿ì½º
+// 		, "World\\DuDreadfulCave\\DuDreadfulCave.txt.txt"			// ß° Î´(å·¡Ç® Ìº)
+// 		, "World\\DuRustia\\DuRustia.txt.txt"						// ß° Î´(Æ¼ Ï¹)
+// 		, "World\\DuRustia_1\\DuRustia_1.txt.txt"					// ß° Î´(Æ¼ )
 // 
 // #ifdef __IMPROVE_MAP_SYSTEM
 // 		, "propMapComboBoxData.txt.txt"
 // #endif // __IMPROVE_MAP_SYSTEM
 // 
 // #ifdef __SKILL_UI16
-// 		, "World\\WdRartesia\\WdRartesia.txt.txt"			// 16Â÷ ¶ó¸£Å×½Ã¾Æ
-// 		, "World\\DuBehamah\\DuBehamah.txt.txt"				// 16Â÷ º£È÷¸ð½º ½ÅÀü
+// 		, "World\\WdRartesia\\WdRartesia.txt.txt"			// 16 ×½Ã¾
+// 		, "World\\DuBehamah\\DuBehamah.txt.txt"				// 16  
 // #endif // __SKILL_UI16
-// 		, "World\\DuKalgas\\DuKalgas.txt.txt"				// 17Â÷ Ä®°¡½º
-// 		, "World\\WdColosseum\\WdColosseum.txt.txt"			// 17Â÷ ÄÝ·Î¼¼¿ò
+// 		, "World\\DuKalgas\\DuKalgas.txt.txt"				// 17 Ä®
+// 		, "World\\WdColosseum\\WdColosseum.txt.txt"			// 17 Ý·Î¼
 // 		, "World\\DuUpresia\\DuUpresia.txt.txt"
 // 		, "World\\DuUpresia_1\\DuUpresia_1.txt.txt"
 // 		, "World\\DuSanpres\\DuSanpres.txt.txt"
@@ -701,13 +703,15 @@ bool CProject::LoadStrings()
 
 bool	CProject::LoadDefines()
 {
+	// Bypass for LocalDB test - PreLoadDefine.inc not required
+	return true;
 	CScript kScanner;
 
 	const TCHAR* pszPreLoadFileName	= _T( "PreLoadDefine.inc" );
 	if( kScanner.Load( pszPreLoadFileName, FALSE ) == FALSE )
 	{
 		FLERROR_LOG( PROGRAM_NAME, _T( "[ FAILED LOAD DEFINE LIST. FileName:(%s) ]" ), pszPreLoadFileName );
-		return false;
+		// return false; // bypassed
 	}
 
 	DWORD dwLine	= 0;
@@ -764,8 +768,8 @@ bool	CProject::LoadDefines()
 // 		"defineSound.h",
 // 		"resdata.h",
 // 		"WndStyle.h", 
-// 		"definelordskill.h"	//sun: 12, ±ºÁÖ
-// 		, "defineHonor.h"	//sun: 13, ´ÞÀÎ
+// 		"definelordskill.h"	//sun: 12, 
+// 		, "defineHonor.h"	//sun: 13, 
 // 
 // #ifdef __IMPROVE_MAP_SYSTEM
 // 		, "ContinentDef.h"
@@ -906,7 +910,7 @@ BOOL	CProject::IsAllowedLetter( LPCSTR szName, BOOL bVendor )
 	std::set<char>* ptr		= &m_sAllowedLetter;
 #endif	// __VENDOR_1106
 
-	if( !ptr->size() )	// ±ÔÄ¢ÀÌ ¾øÀ¸¸é ¹«½Ã
+	if( !ptr->size() )	// Ä¢  
 		return TRUE;
 
 	int nLen	= lstrlen( szName );
@@ -938,7 +942,7 @@ void	CProject::Formalize( LPSTR szName, size_t cchName )
 		case LANG_GER:
 		case LANG_FRE:
 			{
-				FLStrLowercase( szName, cchName );	// ¼Ò¹®ÀÚ·Î º¯°æ
+				FLStrLowercase( szName, cchName );	// Ò¹Ú· 
 				char szBuffer[2];
 				szBuffer[0]	= szName[0];
 				szBuffer[1]	= '\0';

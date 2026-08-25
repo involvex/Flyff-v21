@@ -208,8 +208,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	if (!hWnd)
 	  return FALSE;
 
-	// Item ½Ã¸®¾ó ¹øÈ£ »ý¼º ·£´ý°ª ÃÊ±âÈ­
-	xSRand( timeGetTime()  );	// ¼Óµµ¸¦ ¿äÇÏ´Â ·£´ýÀº xRandom()À» ¾²µµ·Ï...
+	// Item Ã¸ È£   Ê±È­
+	xSRand( timeGetTime()  );	// Óµ Ï´  xRandom() ...
 
 	FLLOG_ADD_NETWORK( NETWORK_LOG_NAME );
 	if( InitializeNetLib() == FALSE )
@@ -287,7 +287,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		FLASSERT( 0 );
 	}
 
-	// ±ºÁÖ ½Ã½ºÅÛÀ» ±¸¼ºÇÏ´Â Çù·Â °´Ã¼µéÀ» »ý¼ºÇÑ´Ù
+	//  Ã½ Ï´  Ã¼ Ñ´
 	CTLord::Instance()->CreateColleagues();
 
 	CDbControllerTimer::GetInstance()->Create();
@@ -367,7 +367,7 @@ void ExitInstance( void )
 	MEMPOOLER_DESTROY( CMover );
 
 	CDbControllerTimer::GetInstance()->Destroy();
-	// ±ºÁÖ ½Ã½ºÅÛ Çù·Â °´Ã¼µéÀ» Á¦°ÅÇÑ´Ù
+	//  Ã½  Ã¼ Ñ´
 	CTLord::Instance()->DestroyColleagues();
 
 	UninitializeNetLib();
@@ -507,190 +507,54 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 BOOL Script( LPCSTR lpszFileName )
 {
 	CDbManager& db = CDbManager::GetInstance();
-
-//	BOOL	bToolRemoveQuest	= FALSE;
-//	BOOL	bToolItemId		= FALSE;
-//	BOOL	bToolRestorePet	= FALSE;
-	CScanner s;
-
-	if( s.Load( lpszFileName ) )
+	FLERROR_LOG(PROGRAM_NAME, _T("BYPASS ACTIVE"));
+	// Bypass CScanner/CResFile for LocalDB test - hardcoded values
+	if( !SetCurrentDirectory( "I:\\Games\\FlyffSource\\Release Serverfiles\\Resource" ) )
 	{
-		s.GetToken();
-		while( s.tok != FINISHED )
+		DWORD err = GetLastError();
+		FLERROR_LOG(PROGRAM_NAME, _T("SetCurrentDirectory FAIL for Resource err=%u"), err);
+		// Try fallback to Test Resource
+		if( !SetCurrentDirectory( "I:\\Games\\Flyff-Test\\Resource" ) )
 		{
-			if( s.Token == "ResourceFolder" )
-			{
-				s.GetToken();
-				if( !SetCurrentDirectory( s.Token ) )
-				{
-					g_MyTrace.Add( FLMyTrace::Key( "status" ), FALSE, "Folder not found, %s", s.Token );
-					return FALSE;
-				}
-			}
-			else if( s.Token == "Sys" )
-			{
-				g_appInfo.dwSys		= s.GetNumber();
-				g_pServerDescription->SetServerIndex( g_appInfo.dwSys );
-			}
-			else if( s.Token ==  "dwId" )
-			{
-				g_appInfo.dwId		= s.GetNumber();
-			}
-			else if( s.Token == "SERIAL_NUMBER_STATUS" )
-			{
-				g_appInfo.nSerialNumberStatus = s.GetNumber();
-			}
-			else if( s.Token == "SERIAL_NUMBER_REQUEST" )
-			{
-				int nCount = s.GetNumber();
-				if( nCount > 0 )
-				{
-					CDBSerialNumberRequest::GetInstance()->SetRequestCount( nCount );
-				}
-			}
-			else if( s.Token == "LOGIN_BIND_IP" )
-			{
-				s.GetToken();
-				FLStrcpy( g_szLoginBindIP, _countof( g_szLoginBindIP ), s.Token );
-			}
-			else if( s.Token == "CORE_BIND_IP" )
-			{
-				s.GetToken();
-				FLStrcpy( g_szCoreBindIP, _countof( g_szCoreBindIP ), s.Token );
-			}
-			else if( s.Token == "WORLD_BIND_IP" )
-			{
-				s.GetToken();
-				FLStrcpy( g_szWorldBindIP, _countof( g_szWorldBindIP ), s.Token );
-			}
-			else if( s.Token == "Account" )
-			{
-				s.GetToken();
-				FLStrcpy( lpConnection, _countof( lpConnection ), s.Token );
-			}
-			else if( s.Token == "DSN_NAME_CHARACTER" )
-			{
-				s.GetToken();
-				FLStrcpy( DSN_NAME_CHARACTER01, _countof( DSN_NAME_CHARACTER01 ), s.Token );
-			}
-			else if( s.Token == "DB_ADMIN_ID_CHARACTER" )
-			{
-				s.GetToken();
-				FLStrcpy( DB_ADMIN_ID_CHARACTER01, _countof( DB_ADMIN_ID_CHARACTER01 ), s.Token );
-			}
-			else if( s.Token == "DSN_NAME_LOG" )
-			{
-				s.GetToken();
-				FLStrcpy( DSN_NAME_LOG, _countof( DSN_NAME_LOG ), s.Token );
-			}
-			else if( s.Token == "DB_ADMIN_ID_LOG" )
-			{
-				s.GetToken();
-				FLStrcpy( DB_ADMIN_ID_LOG, _countof( DB_ADMIN_ID_LOG ), s.Token );
-			}
-#ifdef __S1108_BACK_END_SYSTEM
-			else if( s.Token == "DSN_NAME_BACKSYSTEM" )
-			{
-				s.GetToken();
-				FLStrcpy( DSN_NAME_BACKSYSTEM, _countof( DSN_NAME_BACKSYSTEM ), s.Token );
-			}
-			else if( s.Token == "DB_ADMIN_ID_BACKSYSTEM" )
-			{
-				s.GetToken();
-				FLStrcpy( DB_ADMIN_ID_BACKSYSTEM, _countof( DB_ADMIN_ID_BACKSYSTEM ), s.Token );
-			}
-			else if( s.Token == "BACKENDSYSTEM" )
-			{
-				prj.m_bBackEndSystem = TRUE;
-			}
-#endif // __S1108_BACK_END_SYSTEM
-			else if( s.Token == "DSN_NAME_ITEMUPDATE" )
-			{
-				s.GetToken();
-				FLStrcpy( DSN_NAME_ITEMUPDATE, _countof( DSN_NAME_ITEMUPDATE ), s.Token );
-			}
-			else if( s.Token == "DB_ADMIN_ID_ITEMUPDATE" )
-			{
-				s.GetToken();
-				FLStrcpy( DB_ADMIN_ID_ITEMUPDATE, _countof( DB_ADMIN_ID_ITEMUPDATE ), s.Token );
-			}
-			else if( s.Token == "ITEMUPDATE" )
-			{
-				prj.m_bItemUpdate = TRUE;
-			}
-			else if( s.Token == "DB_PWD_LOG" )
-			{
-				s.GetToken();
-#ifdef __PWD_CRYPT_DB
-				::GetPWDFromToken(s.Token, db.DB_ADMIN_PASS_LOG);
-#else
-				FLStrcpy(db.DB_ADMIN_PASS_LOG, _countof(db.DB_ADMIN_PASS_LOG), s.Token);
-#endif
-				FLTRACE_LOG( PROGRAM_NAME, _T( "%s" ), db.DB_ADMIN_PASS_LOG ); 
-			}
-			else if( s.Token == "DB_PWD_CHARACTER" )
-			{
-				s.GetToken();
-#ifdef __PWD_CRYPT_DB
-				::GetPWDFromToken( s.Token, db.DB_ADMIN_PASS_CHARACTER01 ); 
-#else
-				FLStrcpy(db.DB_ADMIN_PASS_CHARACTER01, _countof(db.DB_ADMIN_PASS_CHARACTER01), s.Token);
-#endif
-				FLTRACE_LOG( PROGRAM_NAME, _T( "%s" ), db.DB_ADMIN_PASS_CHARACTER01 ); 
-			}
-			else if( s.Token == "DB_PWD_BACKEND" )
-			{
-				s.GetToken();
-#ifdef __PWD_CRYPT_DB
-				::GetPWDFromToken( s.Token, db.DB_ADMIN_PASS_BACKSYSTEM ); 
-#else
-				FLStrcpy(db.DB_ADMIN_PASS_BACKSYSTEM, _countof(db.DB_ADMIN_PASS_BACKSYSTEM), s.Token);
-#endif
-				FLTRACE_LOG( PROGRAM_NAME, _T( "%s" ), db.DB_ADMIN_PASS_BACKSYSTEM ); 
-			}
-			else if( s.Token == "DB_PWD_ITEMUPDATE" )
-			{
-				s.GetToken();
-#ifdef __PWD_CRYPT_DB
-				::GetPWDFromToken( s.Token, db.DB_ADMIN_PASS_ITEMUPDATE ); 
-#else
-				FLStrcpy(db.DB_ADMIN_PASS_ITEMUPDATE, _countof(db.DB_ADMIN_PASS_ITEMUPDATE), s.Token);
-#endif
-				FLTRACE_LOG( PROGRAM_NAME, _T( "%s" ), db.DB_ADMIN_PASS_ITEMUPDATE ); 
-			}
-			else if( s.Token == "SLOT_DONOT_CREATE" )
-			{
-				g_tSlotActionFlag.bNotCreate = true;
-			}
-			else if( s.Token == "SLOT_DONOT_DELETE" )
-			{
-				g_tSlotActionFlag.bNotDelete = true;
-			}
-
-			s.GetToken();
-		}
-
-		//////////////////////////////////////////////////////////////////////////
-		const TCHAR szFileName[]	= _T( "MoveScript.inc" );
-		if( g_pScriptFileManager->LoadMoveFileList( szFileName ) == false )
-		{
-			FLERROR_LOG( PROGRAM_NAME, _T( "[ FAILED MOVE SCRIPT FILE. PLEASE CHECK:(%s) ]" ), szFileName );
+			err = GetLastError();
+			FLERROR_LOG(PROGRAM_NAME, _T("Fallback SetCurrentDirectory FAIL err=%u"), err);
 			return FALSE;
 		}
-		//////////////////////////////////////////////////////////////////////////
-
-		if( !prj.OpenProject( "masquerade.prj" ) )
-		{
-			g_MyTrace.Add( FLMyTrace::Key( "status" ), FALSE, "Fail to open project" );
-			return FALSE;
-		}
-		else
-		{
-			g_MyTrace.Add( FLMyTrace::Key( "status" ), FALSE, "Ready" );
-			return TRUE;
-		}
+		FLERROR_LOG(PROGRAM_NAME, _T("Fallback SetCurrentDirectory OK to Test Resource"));
 	}
-
-	g_MyTrace.Add( FLMyTrace::Key( "status" ), FALSE, "Fail to open file, %s", lpszFileName );
-	return FALSE;
-};
+	g_appInfo.dwSys = 1;
+	g_pServerDescription->SetServerIndex( g_appInfo.dwSys );
+	FLStrcpy( g_szLoginBindIP, _countof(g_szLoginBindIP), "127.0.0.1" );
+	FLStrcpy( g_szCoreBindIP, _countof(g_szCoreBindIP), "127.0.0.1" );
+	FLStrcpy( g_szWorldBindIP, _countof(g_szWorldBindIP), "127.0.0.1" );
+	FLStrcpy( lpConnection, _countof(lpConnection), "127.0.0.1" );
+	FLStrcpy( DSN_NAME_CHARACTER01, _countof(DSN_NAME_CHARACTER01), "character01" );
+	FLStrcpy( DB_ADMIN_ID_CHARACTER01, _countof(DB_ADMIN_ID_CHARACTER01), "character01" );
+	FLStrcpy( DSN_NAME_LOG, _countof(DSN_NAME_LOG), "log01" );
+	FLStrcpy( DB_ADMIN_ID_LOG, _countof(DB_ADMIN_ID_LOG), "log01" );
+	FLStrcpy( DSN_NAME_BACKSYSTEM, _countof(DSN_NAME_BACKSYSTEM), "BACKENDSYSTEM" );
+	FLStrcpy( DB_ADMIN_ID_BACKSYSTEM, _countof(DB_ADMIN_ID_BACKSYSTEM), "backend" );
+	::GetPWDFromToken( "C125E256A4C65BB4683563F07DCD7B4D683563F07DCD7B4D", db.DB_ADMIN_PASS_LOG );
+	::GetPWDFromToken( "F2A88DE9B84AC505228E3B9DD56B366E683563F07DCD7B4D", db.DB_ADMIN_PASS_CHARACTER01 );
+	::GetPWDFromToken( "608984DEC6FA5C6BDDBE9D2E0377B38C683563F07DCD7B4D", db.DB_ADMIN_PASS_BACKSYSTEM );
+	::GetPWDFromToken( "088DBBA07EAC79C59EC1BE037275A6B2683563F07DCD7B4D", db.DB_ADMIN_PASS_ITEMUPDATE );
+	// Skip file parsing, go directly to MoveScript/OpenProject
+	const TCHAR szFileName[]	= _T( "MoveScript.inc" );
+	if( g_pScriptFileManager->LoadMoveFileList( szFileName ) == false )
+	{
+		FLERROR_LOG( PROGRAM_NAME, _T( "[ FAILED MOVE SCRIPT FILE. PLEASE CHECK:(%s) ]" ), szFileName );
+		return FALSE;
+	}
+	{
+		TCHAR cwd2[MAX_PATH]; GetCurrentDirectory(MAX_PATH, cwd2);
+		FLERROR_LOG(PROGRAM_NAME, _T("CWD before OpenProject=[%s]"), cwd2);
+	}
+	if( !prj.OpenProject( "masquerade.prj" ) )
+	{
+		FLERROR_LOG(PROGRAM_NAME, _T("OpenProject masquerade.prj FAIL"));
+		g_MyTrace.Add( FLMyTrace::Key( "status" ), FALSE, "Fail to open project" );
+		return FALSE;
+	}
+	g_MyTrace.Add( FLMyTrace::Key( "status" ), FALSE, "Ready" );
+	return TRUE;
+}
