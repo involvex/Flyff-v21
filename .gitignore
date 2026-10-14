@@ -314,3 +314,6 @@ _build_log.txt
 _lib_build.txt
 _build*.txt
 _all_build*.txt
+# Reversa
+.reversa/config.user.toml
+_reversa_sdd/
